@@ -45,7 +45,7 @@ public abstract class BaseSource extends ElementSource {
         ERROR(TYPE_ERROR);
 
         /* package */ int elType;
-        Placeholder(int elType) {
+        /* package */ Placeholder(int elType) {
             this.elType = elType;
         }
     }
@@ -151,6 +151,5 @@ public abstract class BaseSource extends ElementSource {
             Placeholder placeholder = Placeholder.valueOf(is);
             restoredElements.add(i, placeholder);
         }
-
     }
 }

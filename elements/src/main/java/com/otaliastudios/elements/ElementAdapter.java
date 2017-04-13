@@ -50,6 +50,10 @@ import bolts.Task;
  * computed in such a way that if {@code source1.dependsOn(source2)}, find operations for
  * {@code source1} are called after find operations for {@code source2}.
  *
+ * Any call to {@code notify*} methods will likely break the internal state of the adapter.
+ * Insertions, removals and any other dataset alteration must be done either through one of the many
+ * {@link ElementSource} callbacks or through {@link Pager.Page} instances.
+ *
  * @see Element
  * @see ElementSource
  * @see ElementPresenter
@@ -75,7 +79,7 @@ public final class ElementAdapter extends RecyclerView.Adapter<ElementPresenter.
     private List<Set<Integer>> groups;
 
     private SparseArray<ElementSource> sourceIdMap;
-    private SparseArray<ElementPresenter> elementTypeMap; // ??? save.
+    private SparseArray<ElementPresenter> elementTypeMap;
     private SparseArray<Set<Integer>> dependencyMap;
     private SparseArray<Set<Integer>> reverseDependencyMap;
 
