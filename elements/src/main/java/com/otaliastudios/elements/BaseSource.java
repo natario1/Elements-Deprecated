@@ -123,7 +123,7 @@ public abstract class BaseSource extends ElementSource {
     protected void onSavePageState(Pager.Page page, List<Object> elements, Bundle outState) {
         super.onSavePageState(page, elements, outState);
 
-        String prefix = "page:"+page.getPageNumber()+":";
+        String prefix = "__page:"+page.getPageNumber()+":";
         int count = 0;
         ListIterator<Object> it = elements.listIterator();
         while (it.hasNext()) {
@@ -142,7 +142,7 @@ public abstract class BaseSource extends ElementSource {
     @Override
     protected void onPageStateRestored(Pager.Page page, List<Object> restoredElements, Bundle state) {
         super.onPageStateRestored(page, restoredElements, state);
-        String prefix = "page:"+page.getPageNumber()+":";
+        String prefix = "__page:"+page.getPageNumber()+":";
         int count = state.getInt(prefix+"placeholderCount", 0);
         if (count == 0) return;
         for (int i = 0; i < restoredElements.size() + count; i++) {

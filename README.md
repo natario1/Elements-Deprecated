@@ -32,17 +32,17 @@ Elements comes useful in complex apps that display lists with mixed content or p
 / fetching behavior. By providing simple component units, you won't be writing huge adapter classes
 anymore (in fact, you don't extend `RecyclerView.Adapter` at all).
 
-What you won't do:
+What you **will not** do:
 
 - Extend `RecyclerView.Adapter`
 - Extend `ViewHolder`
+- Extend `AsyncTask`
 - Use `notify*` methods
 - Incapsulate fetching (e.g. network), ordering, display, callbacks logic in a single adapter class
   or, worse, in the external container (e.g. fragment).
-- Extend `AsyncTask`
 - Fetch data again on configuration changes
 
-What you will do:
+What you **will** do:
 
 - Create one or more `ElementSource`s that fetch data asyncrhonously from your database
   and talk with each other if needed
@@ -121,6 +121,19 @@ database.setCallback(new Callback() {
 });
 database.query();
 return tcs.getTask(); // Our task that will complete later.
+```
+
+Or even simpler,
+
+```java
+return Task.callInBackground(new Callable<List<Object>>() {
+  @Override
+  public List<Object> call() {
+    // This runs in a background thread.
+    // Do sync stuff...
+    return data;
+  }
+})
 ```
 
 Each `ElementSource` will provide a task for fetching objects for a certain page of the list.
@@ -239,7 +252,35 @@ The library provides `ParcelableSerializer` (recommended), `SerializableSerializ
 
 ## BaseSource / BasePresenter
 
-TODO
+Elements provides two basic (still abstract) implementations called `BaseSource` and `BasePresenter`.
+Together, they allow the display of three special placeholders. Each placeholder will have a layout
+resource (override the defaults with `set*ViewRes()`) and private lifecycle callbacks if you need.
+
+#### Pagination placeholders
+
+Special views that indicate the user that there is more content to be seen (a new page).
+UI wise, this can be a progress bar or a button saying "Load more". The policy for pagination must
+be implemented in your source. The most reasonable is:
+
+- If you want to show 20 objects per page, ask the server for 21
+- If 21 are returned, remove the last one and call `BaseSource#appendPaginationPlaceholder(List)`.
+
+The source will care about inserting a special object with a special `elementType`.
+`BasePresenter` will respond to this and provide default UI behavior.
+You can customize the behavior and layout with `setPaginationMode()`:
+
+- `PAGINATION_MODE_ONBIND`: new page is requested when the placeholder is bound, with a small delay.
+- `PAGINATION_MODE_ONCLICK`: new page is requested when the placeholder is clicked.
+
+#### Empty placeholders
+
+A special view that is shown when there's no content to be seen.
+This works out of the box when, after loading page 0, the source returns no results.
+
+#### Error placeholders
+
+A special view that shown when the `Task` for objects has failed (e.g. an exception was thrown).
+You can, for example, return a failed task when there is no connectivity, and show a network error.
 
 ## Contributing
 
