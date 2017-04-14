@@ -1,10 +1,9 @@
+<!-- markdown-preview README.md -->
 <p align="center">
-  <img src="elements.png" vspace="10" width="120" height="120">
+  <img src="elements.png" vspace="10" width="180" height="180">
 </p>
 
 # Elements
-
-<!-- img src="elements.png" align="left" hspace="10" vspace="6" width="100" height="100" -->
 
 A low-level library of reusable components for RecyclerView, with built-in awareness / support for
 pagination (splitting items into multiple pages), state saving and restoration, asynchronous tasks
