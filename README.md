@@ -1,4 +1,11 @@
+<!-- p align="center" -->
+  <!-- img src="http://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width=100 height=100 -->
+<!-- /p -->
+
 # Elements
+
+<img src="elements.png" align="left" hspace="10" vspace="6" width="100" height="100" -->
+
 A low-level library of reusable components for RecyclerView, with built-in awareness / support for
 pagination (splitting items into multiple pages), state saving and restoration, asynchronous tasks
 and dependencies among them, relative ordering of items.
