@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" vspace="10" width="120" height="120">
+  <img src="elements.png" vspace="10" width="120" height="120">
 </p>
 
 # Elements
