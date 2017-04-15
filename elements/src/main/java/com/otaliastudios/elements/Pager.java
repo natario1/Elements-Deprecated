@@ -221,7 +221,7 @@ public class Pager {
          * @param position position in this page, 0 based
          * @param source the element source this data belogns to
          * @param data object to be inserted
-         *
+         * @return the inserted element
          */
         @UiThread
         public Element insertElement(int position, ElementSource source, Object data) {
@@ -344,7 +344,7 @@ public class Pager {
         }
 
         /**
-         * Replaces elements in this page in the range {@code position} ->
+         * Replaces elements in this page in the range {@code position} ...
          * {@code position + elements.length} with the specified elements.
          *
          * @param position starting position

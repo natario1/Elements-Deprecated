@@ -18,7 +18,7 @@ import bolts.Task;
  * class.
  *
  * You can quickly get a {@code SourceMonitor} for a certain source by calling
- * {@link ElementSource#getMonitor(Callback)}. monitor.getMonitor() will return null.
+ * {@link ElementSource#getMonitor(SourceMonitor.Callback)}. monitor.getMonitor() will return null.
  *
  * @param <SourceType> The monitorable source type
  */

@@ -26,8 +26,8 @@ import bolts.Task;
  * an Empty placeholder, a Error placeholder and a Loading placeholder.
  *
  * Pagination placeholder:
- * Control with {@link #setPaginationMode(int)}, {@link #onInitializePaginationView(Holder)},
- * {@link #onBindPaginationView(Pager.Page, Holder, Element)}.
+ * Control with {@link #setPaginationMode(int)}, {@link #onInitializePaginationView(ElementPresenter.Holder)},
+ * {@link #onBindPaginationView(Pager.Page, ElementPresenter.Holder, Element)}.
  * This class implements two different policies for pagination:
  * - {@link #PAGINATION_MODE_ONBIND}: when the view is bound, after a small delay,
  *   the adapter is asked for the next page. The view should be something like a ProgressBar.
@@ -35,19 +35,19 @@ import bolts.Task;
  *   the next page. The view should be something like a Button.
  *
  * Empty placeholder:
- * Control with {@link #setEmptyViewRes(int)}, {@link #onInitializeEmptyView(Holder)},
- * {@link #onBindEmptyView(Pager.Page, Holder)}.
+ * Control with {@link #setEmptyViewRes(int)}, {@link #onInitializeEmptyView(ElementPresenter.Holder)},
+ * {@link #onBindEmptyView(Pager.Page, ElementPresenter.Holder)}.
  *
  * Error placeholder:
- * Control with {@link #setErrorViewRes(int)}, {@link #onInitializeErrorView(Holder)},
- * {@link #onBindErrorView(Pager.Page, Holder)}.
+ * Control with {@link #setErrorViewRes(int)}, {@link #onInitializeErrorView(ElementPresenter.Holder)},
+ * {@link #onBindErrorView(Pager.Page, ElementPresenter.Holder)}.
  *
  * Loading placeholder:
- * Control with {@link #setLoadingViewRes(int)}, {@link #onInitializeLoadingView(Holder)},
- * {@link #onBindLoadingView(Pager.Page, Holder)}.
+ * Control with {@link #setLoadingViewRes(int)}, {@link #onInitializeLoadingView(ElementPresenter.Holder)},
+ * {@link #onBindLoadingView(Pager.Page, ElementPresenter.Holder)}.
  *
  * Ordinary, non-placeholder views should be created and bound using {@link #setViewRes(int)},
- * {@link #onInitializeValidView(Holder)}, {@link #onBindView(Pager.Page, Holder, Element)}.
+ * {@link #onInitializeValidView(ElementPresenter.Holder)}, {@link #onBindView(Pager.Page, ElementPresenter.Holder, Element)}.
  *
  * @see BaseSource
  */

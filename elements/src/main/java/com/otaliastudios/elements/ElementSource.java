@@ -101,9 +101,11 @@ public abstract class ElementSource {
 
     /**
      * Returns a {@link ElementSerializer} implementation, to save and restore state.
+     *
      * @see ElementSerializer
      * @see StaticSerializer
      * @see ParcelableSerializer
+     * @return the serializer used to save state.
      */
     protected abstract ElementSerializer instantiateSerializer();
 
@@ -145,6 +147,9 @@ public abstract class ElementSource {
      * - {@link #onPrepareOrder(Pager.Page, List, List)} is called to let you set up the ordering strategy
      * - {@link #orderBefore(Pager.Page, int, Element)} and {@link #orderAfter(Pager.Page, int, Element)}
      *   are called until the number of elements is over
+     *
+     * @param other the other source to be checked
+     * @return true if this source depends on other
      */
     protected abstract boolean dependsOn(ElementSource other);
 
@@ -161,6 +166,7 @@ public abstract class ElementSource {
      * @param page the current page
      * @param source the other source we depend on.
      * @param task a completed task as returned by the other source's find()
+     * @return a completed task with the dependency object
      */
     @UiThread
     protected Task<List<Object>> onDependencyAfterFind(Pager.Page page, ElementSource source, Task<List<Object>> task) {

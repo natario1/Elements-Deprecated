@@ -59,7 +59,7 @@ import bolts.Task;
  * @see ElementPresenter
  * @see ElementSerializer
  *
- * TODO save & restore: what if a task had not ended? We should go by groups.
+ * TODO save - restore: what if a task had not ended? We should go by groups.
  * - Groups that had ended, should be restored through the Serializer
  * - Groups that had not, can't be restored and find() should be called again.
  * Some though must be given to callbacks consistency though.
@@ -246,6 +246,7 @@ public final class ElementAdapter extends RecyclerView.Adapter<ElementPresenter.
      *
      * @param source the element source that will be the Element parent.
      * @param data the model data
+     * @param <T> data type
      * @return a new Element with desired data.
      */
     public <T> Element<T> createElement(ElementSource source, T data) {
@@ -342,13 +343,14 @@ public final class ElementAdapter extends RecyclerView.Adapter<ElementPresenter.
      * Loads desired page. This means, among other things, opening the page if needed and asking
      * sources for objects through {@link ElementSource#find(Pager.Page)}.
      *
-     * Objects belonging to pages < {@code pageNumber} stay untouched.
-     * Objects belonging to pages > {@code pageNumber}, are cleared if
+     * Objects belonging to pages before {@code pageNumber} stay untouched.
+     * Objects belonging to pages after {@code pageNumber}, are cleared if
      * {@code clearSubsequentPages} is true, after the requested page is loaded.
      * Objects belonging to page {@code pageNumber}, if present, will be cleared as soon as new
      * objects arrive.
      *
      * @param pageNumber desired page.
+     * @param clearSubsequentPages whether to clear next pages content
      * @return a Task that is completed once the page is loaded.
      */
     @UiThread
@@ -360,14 +362,16 @@ public final class ElementAdapter extends RecyclerView.Adapter<ElementPresenter.
      * Loads desired page. This means, among other things, opening the page if needed and asking
      * sources for objects through {@link ElementSource#find(Pager.Page)}.
      *
-     * Objects belonging to pages < {@code pageNumber} stay untouched.
-     * Objects belonging to pages > {@code pageNumber} are cleared if
+     * Objects belonging to pages before {@code pageNumber} stay untouched.
+     * Objects belonging to pages after {@code pageNumber} are cleared if
      * {@code clearSubsequentPages} is true, immediately if {@code immediately} is true, or after
      * the requested page is loaded.
      * Objects belonging to page {@code pageNumber}, if present, will be cleared as soon as new
      * objects arrive or immediately, depending on {@code immediately}.
      *
      * @param pageNumber desired page.
+     * @param clearSubsequentPages whether to clear next pages content
+     * @param immediately whether to clear content immediately
      * @return a Task that is completed once the page is loaded.
      */
     @UiThread

@@ -104,10 +104,13 @@ task sourcesJar(type: Jar) {
 
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
-    // source = android.sourceSets.main.allJava
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += files("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar")
-    classpath += configurations.compile
+    classpath += project.files("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar")
+    project.android.libraryVariants.all { variant ->
+        if (variant.name == 'release') {
+            classpath += files(variant.javaCompile.classpath)
+        }
+    }
     exclude '**/BuildConfig.java'
     exclude '**/R.java'
     exclude '**/internal/**'
@@ -119,8 +122,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 artifacts {
-    // javadocs fail for various reasons, working on it
-    // archives javadocJar
+    archives javadocJar
     archives sourcesJar
 }
 
