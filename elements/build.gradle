@@ -1,4 +1,10 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+// Required by bintray
+version = '1.0'
+group = 'com.otaliastudios'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -8,7 +14,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName project.version
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -22,7 +28,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -30,3 +35,85 @@ dependencies {
     compile 'com.parse.bolts:bolts-tasks:1.4.0'
     testCompile 'junit:junit:4.12'
 }
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name 'Elements'
+            description 'A low-level Android library of reusable components for RecyclerView, ' +
+                    'with built-in support for pagination, state saving and restoration, ' +
+                    'asynchronous loading, dependencies and relative ordering of items.'
+            url 'https://github.com/natario1/Elements'
+
+            packaging 'aar'
+            groupId project.group
+            artifactId 'elements'
+            version project.version
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                }
+            }
+            scm {
+                connection 'https://github.com/natario1/Elements.git'
+                developerConnection 'https://github.com/natario1/Elements.git'
+                url 'https://github.com/natario1/Elements'
+
+            }
+            developers {
+                developer {
+                    id = 'natario'
+                    name 'Natario'
+                }
+            }
+        }
+    }
+}
+
+Properties props = new Properties()
+props.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    // https://github.com/bintray/gradle-bintray-plugin
+    user = props.getProperty('bintray.user')
+    key = props.get('bintray.key')
+    configurations = ['archives']
+    pkg {
+        repo = 'android'
+        name = 'Elements'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/natario1/Elements.git'
+        publish = true
+        version {
+            name = project.version
+            desc = 'Elements v. '+project.version
+            released = new Date()
+            vcsTag = 'v'+project.version
+        }
+    }
+}
+
+// From official sample https://github.com/bintray/bintray-examples/blob/master/gradle-aar-example/build.gradle
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// To deploy ./gradlew bintrayUpload

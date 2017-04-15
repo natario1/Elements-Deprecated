@@ -5,19 +5,23 @@
 
 # Elements
 
+```groovy
+compile 'com.otaliastudios:elements:1.0'
+```
+
 A low-level library of reusable components for `RecyclerView`, with built-in awareness of / support for
 pagination, state saving and restoration, asynchronous loading, dependencies and relative ordering of items.
 
 At a higher level, Elements makes it easy to implement common patterns: "endless adapters",
 placeholders for empty/loading lists, mixed content lists (headers, footers, sections, ads)
-with dynamic items. Logic for loading, ordering and binding is split into separate components
+with dynamic animated items. Logic for loading, ordering and binding is split into separate components
 that can be reused efficiently.
 
 Take a look at the [sample](https://github.com/natario1/Elements/tree/master/sample) app for a showcase.
 
 <img src="art/0.png" width="20%"><img src="art/1.png" width="20%"><img src="art/2.png" width="20%"><img src="art/3.png" width="20%"><img src="art/4.png" width="20%">
 
-<!-- doctoc README.md --github.com --notitle -->
+<!-- doctoc README.md --github --notitle -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -35,8 +39,13 @@ Take a look at the [sample](https://github.com/natario1/Elements/tree/master/sam
   - [Binding process](#binding-process)
   - [State restoration](#state-restoration)
   - [Clicks](#clicks)
+  - [Example presenter](#example-presenter)
 - [ElementSerializer](#elementserializer)
 - [BaseSource / BasePresenter](#basesource--basepresenter)
+    - [Pagination placeholders](#pagination-placeholders)
+    - [Empty placeholders](#empty-placeholders)
+    - [Error placeholders](#error-placeholders)
+    - [Loading placeholders](#loading-placeholders)
 - [Contributing](#contributing)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -113,8 +122,7 @@ The logic goes as follows:
 - `int ElementSource#getElementType(Object)` is called to get an **element type** (kind of a view type in the ordinary recycler) for that object
 - presenters register to deal with a certain element type through `List<Integer> ElementPresenter#getElementTypes()`
 
-If no presenter is found for a certain type, an exception is thrown. If multiple presenters are found,
-the first to be registered gets the priority.
+If no presenter is found for a certain type, an exception is thrown.
 
 ### Tasks
 
@@ -132,7 +140,7 @@ return Task.callInBackground(new Callable<List<Object>>() {
   }
 })
 ```
-
+<!--
 Or more generally,
 
 ```java
@@ -149,12 +157,12 @@ database.setCallback(new Callback() {
 });
 database.query();
 return tcs.getTask(); // Our task that will complete later.
-```
+``` -->
 
 Each `ElementSource` will provide a task for fetching objects for a certain page of the list.
-`ElementAdapter` will try to bundle these tasks together: they will be executed concurrently by
+`ElementAdapter` tries to bundle these tasks together: they are executed concurrently by
 default, but you can declare dependencies between sources such that, for example, one source task will
-be run after the others have completed (e.g. adding internal headers to a list).
+be run after the others have completed (e.g. for adding internal headers to a list).
 
 ## Element
 
@@ -212,9 +220,17 @@ sources elements to be laid out, and order our elements with a relative logic:
   items right before / after the given dependency element
 
 These callbacks will make you think in terms of an imaginary page made just of this source objects,
-and this source's dependencies objects, with simple 0-based indexes. So if we want an `Ad` every 5
+and this source's dependencies objects, with simple 0-based indexes. So if we want an `Ad` every 10
 `Items`, just declare `AdSource` to be dependent on `ItemsSource` and implement one-line logic in
 `orderBefore` or `orderAfter`.
+
+```java
+@Override
+protected int orderBefore(Pager.Page page, int position, Element dependencyElement) {
+  // Release an Ad every 10 items from the source we depend on
+  return (position > 0 && position % 10 == 0) ? 1 : 0;
+}
+```
 
 ## ElementPresenter
 
@@ -246,6 +262,34 @@ a list. For this reason, `saveState(Bundle)` and `restoreState(Bundle)` callback
 By default, presenter applies a click listener to the root view of each item, and you will receive
 a call to `onElementClick(Pager.Page page, Holder holder, Element element)`. See
 `ElementPresenter#setOnClickListener()` for info.
+
+### Example presenter
+
+```java
+public class Presenter extends ElementPresenter {
+  private int color;
+
+  public Presenter(Context context, int color) {
+    super(context);
+    this.color = color;
+  }
+
+  @Override protected View onCreateView(ViewGroup parent, int elementType) {
+    return new TextView(getContext()); // Or inflate a layout.
+  }
+
+  @Override protected void onInitialize(Holder holder) {
+    TextView textView = ((TextView) holder.getRoot());
+    textView.setTextColor(accentColor);
+  }
+
+  @Override protected void onBind(Pager.Page page, Holder holder, Element element) {
+    super.onBind(page, holder, element);
+    TextView textView = ((TextView) holder.getRoot());
+    textView.setText((String) element.getData());
+  }
+}
+```
 
 ## ElementSerializer
 
