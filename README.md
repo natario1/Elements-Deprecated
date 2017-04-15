@@ -15,7 +15,7 @@ with smooth animations. Logic for loading, ordering and binding is split into se
 that can be reused and subclassed in multiple lists. Async loading ensures `RecyclerView` is always
 responsive.
 
-See the [sample app](https://github.com/natario1/Elements/tree/master/sample) for a brief showcase.
+See the [sample](https://github.com/natario1/Elements/tree/master/sample) app for a brief showcase.
 
 <!-- doctoc README.md --github.com --notitle -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -123,6 +123,19 @@ The library is built on top of Facebook's lightweight [bolts library](https://gi
 You will have to learn how to write a `Task` for your queries, but that is straightforward:
 
 ```java
+return Task.callInBackground(new Callable<List<Object>>() {
+  @Override
+  public List<Object> call() {
+    // This runs in a background thread.
+    // Do sync stuff...
+    return data;
+  }
+})
+```
+
+Or more generally,
+
+```java
 final TaskCompletionSource<List<Object>> tcs = new TaskCompletionSource<>();
 // Do something async
 database.setCallback(new Callback() {
@@ -136,19 +149,6 @@ database.setCallback(new Callback() {
 });
 database.query();
 return tcs.getTask(); // Our task that will complete later.
-```
-
-Or even simpler,
-
-```java
-return Task.callInBackground(new Callable<List<Object>>() {
-  @Override
-  public List<Object> call() {
-    // This runs in a background thread.
-    // Do sync stuff...
-    return data;
-  }
-})
 ```
 
 Each `ElementSource` will provide a task for fetching objects for a certain page of the list.
