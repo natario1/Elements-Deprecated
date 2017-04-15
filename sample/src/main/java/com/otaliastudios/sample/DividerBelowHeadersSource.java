@@ -1,19 +1,13 @@
 package com.otaliastudios.sample;
 
-import android.os.Bundle;
-
 import com.otaliastudios.elements.Element;
 import com.otaliastudios.elements.ElementSerializer;
 import com.otaliastudios.elements.ElementSource;
 import com.otaliastudios.elements.FooterSource;
-import com.otaliastudios.elements.Pager;
-import com.otaliastudios.elements.SourceMonitor;
 import com.otaliastudios.elements.StringSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import bolts.Task;
 
 
 public class DividerBelowHeadersSource extends FooterSource<String, String> {
@@ -27,7 +21,7 @@ public class DividerBelowHeadersSource extends FooterSource<String, String> {
         List<String> list = new ArrayList<>();
         for (Element element : dependenciesElements) {
             if (!(element.getData() instanceof String)) continue;
-            if (element.getElementType() == TextPresenter.TYPE_TEXT_LARGE) {
+            if (element.getElementType() == Presenter.TYPE_TEXT_LARGE) {
                 list.add((String) element.getData());
             }
         }

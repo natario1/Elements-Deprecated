@@ -23,10 +23,10 @@ public class MainActivity extends AppCompatActivity implements ElementPresenter.
         ElementAdapter adapter = new ElementAdapter();
         adapter.setSource(new MainSource(),
                 new DividerBelowHeadersSource(MainSource.class),
-                new TopMessageSource("List with two main sources: one is providing menu strings, " +
+                new TopMessageSource("This is a list with two main sources: one is providing menu strings, " +
                         "the other is adding dividers at the right position. This message is also " +
                         "part of the list, thanks to another source."));
-        adapter.setPresenter(new TextPresenter(this, this), new DividerPresenter(this));
+        adapter.setPresenter(new Presenter(this, this), new DividerPresenter(this));
         adapter.restoreState(savedInstanceState);
         list = (RecyclerView) findViewById(R.id.list);
         list.setAdapter(adapter);
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ElementPresenter.
 
     @Override
     public void onElementClick(Pager.Page page, ElementPresenter.Holder holder, Element element) {
-        if (element.getElementType() != TextPresenter.TYPE_TEXT_SMALL) return;
+        if (element.getElementType() != Presenter.TYPE_TEXT_SMALL) return;
         // React to small text clicks.
         String text = (String) element.getData();
         int what = -1;

@@ -1,21 +1,21 @@
 <!-- markdown-preview README.md -->
 <p align="center">
-  <img src="elements.png" vspace="10" width="180" height="180">
+  <img src="art/elements.png" vspace="10" width="180" height="180">
 </p>
 
 # Elements
 
-A low-level library of reusable components for RecyclerView, with built-in awareness of / support for
-pagination (splitting items into multiple pages), state saving and restoration, asynchronous loading,
-dependencies and relative ordering of items.
+A low-level library of reusable components for `RecyclerView`, with built-in awareness of / support for
+pagination, state saving and restoration, asynchronous loading, dependencies and relative ordering of items.
 
-At a higher level, this means it's very easy to implement common patterns: "endless adapters",
+At a higher level, Elements makes it easy to implement common patterns: "endless adapters",
 placeholders for empty/loading lists, mixed content lists (headers, footers, sections, ads)
-with smooth animations. Logic for loading, ordering and binding is split into separate components
-that can be reused and subclassed in multiple lists. Async loading ensures `RecyclerView` is always
-responsive.
+with dynamic items. Logic for loading, ordering and binding is split into separate components
+that can be reused efficiently.
 
-See the [sample](https://github.com/natario1/Elements/tree/master/sample) app for a brief showcase.
+Take a look at the [sample](https://github.com/natario1/Elements/tree/master/sample) app for a showcase.
+
+<img src="art/0.png" width="20%"><img src="art/1.png" width="20%"><img src="art/2.png" width="20%"><img src="art/3.png" width="20%"><img src="art/4.png" width="20%">
 
 <!-- doctoc README.md --github.com --notitle -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

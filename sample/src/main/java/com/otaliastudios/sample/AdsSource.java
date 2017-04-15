@@ -52,6 +52,6 @@ public class AdsSource extends ElementSource {
 
     @Override
     protected int getElementType(Object data) {
-        return TextPresenter.TYPE_TEXT_MEDIUM;
+        return Presenter.TYPE_TEXT_MESSAGE;
     }
 }

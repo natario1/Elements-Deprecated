@@ -46,6 +46,6 @@ public class LettersSource extends HeaderSource<String, String> {
 
     @Override
     protected int getElementType(Object data) {
-        return TextPresenter.TYPE_TEXT_LARGE;
+        return Presenter.TYPE_TEXT_LARGE;
     }
 }

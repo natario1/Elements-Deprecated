@@ -42,7 +42,7 @@ public class TopMessageSource extends ElementSource {
 
     @Override
     protected int getElementType(Object data) {
-        return TextPresenter.TYPE_TEXT_MEDIUM;
+        return Presenter.TYPE_TEXT_MESSAGE;
     }
 
     @Override

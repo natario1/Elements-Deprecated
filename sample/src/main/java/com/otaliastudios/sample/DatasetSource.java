@@ -9,7 +9,6 @@ import com.otaliastudios.elements.StringSerializer;
 import java.util.ArrayList;
 import java.util.List;
 
-import bolts.Continuation;
 import bolts.Task;
 
 /**
@@ -36,6 +35,6 @@ public class DatasetSource extends BaseSource {
 
     @Override
     protected int getValidElementType(Object data) {
-        return TextPresenter.TYPE_TEXT_SMALL;
+        return Presenter.TYPE_TEXT_SMALL;
     }
 }

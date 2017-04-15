@@ -75,9 +75,9 @@ public class ChildActivity extends AppCompatActivity implements SourceMonitor.Ca
         adapter.setSource(new LoadingSource(),
                 new TopMessageSource("List with a single source that takes 2 seconds to load data. " +
                         "A loading indicator is shown while the task is going on. " +
-                        "This message is also part of the list."),
+                        "\nThis message is also part of the list."),
                 new SourceMonitor<>(ElementSource.class, this));
-        adapter.setPresenter(new TextPresenter(this, null));
+        adapter.setPresenter(new Presenter(this, null));
         adapter.restoreState(savedInstanceState);
         list = (RecyclerView) findViewById(R.id.list);
         list.setAdapter(adapter);
@@ -88,9 +88,9 @@ public class ChildActivity extends AppCompatActivity implements SourceMonitor.Ca
         adapter.setSource(new EmptySource(),
                 new TopMessageSource("List with a single source that returns empty data. " +
                         "A placeholder is automatically shown saying there's no data. " +
-                        "This message is also part of the list."),
+                        "\nThis message is also part of the list."),
                 new SourceMonitor<>(ElementSource.class, this));
-        adapter.setPresenter(new TextPresenter(this, null));
+        adapter.setPresenter(new Presenter(this, null));
         adapter.restoreState(savedInstanceState);
         list = (RecyclerView) findViewById(R.id.list);
         list.setAdapter(adapter);
@@ -102,9 +102,9 @@ public class ChildActivity extends AppCompatActivity implements SourceMonitor.Ca
                 new TopMessageSource("List with a single source that returns fake items, " +
                         "in pages of 25 items each. Scrolling down, you will see a progress " +
                         "indicator while next page loads. " +
-                        "This message is also part of the list."),
+                        "\nThis message is also part of the list."),
                 new SourceMonitor<>(ElementSource.class, this));
-        adapter.setPresenter(new TextPresenter(this, null));
+        adapter.setPresenter(new Presenter(this, null));
         adapter.restoreState(savedInstanceState);
         list = (RecyclerView) findViewById(R.id.list);
         list.setAdapter(adapter);
@@ -117,9 +117,9 @@ public class ChildActivity extends AppCompatActivity implements SourceMonitor.Ca
                 new DividerBelowHeadersSource(LettersSource.class),
                 new TopMessageSource("List with three sources: one for fake items, one that " +
                         "adds headers (A, B, C) at the right position, and one that adds dividers " +
-                        "just below header letters. This message is also part of the list."),
+                        "just below header letters. \nThis message is also part of the list."),
                 new SourceMonitor<>(ElementSource.class, this));
-        adapter.setPresenter(new TextPresenter(this, null), new DividerPresenter(this));
+        adapter.setPresenter(new Presenter(this, null), new DividerPresenter(this));
         adapter.restoreState(savedInstanceState);
         list = (RecyclerView) findViewById(R.id.list);
         list.setAdapter(adapter);
@@ -130,9 +130,9 @@ public class ChildActivity extends AppCompatActivity implements SourceMonitor.Ca
         adapter.setSource(new DatasetSource(),
                 new AdsSource(),
                 new TopMessageSource("List with two sources: one for fake items, and one that " +
-                        "adds fake ads every 10 items. This message is also part of the list."),
+                        "adds fake ads every 10 items. \nThis message is also part of the list."),
                 new SourceMonitor<>(ElementSource.class, this));
-        adapter.setPresenter(new TextPresenter(this, null));
+        adapter.setPresenter(new Presenter(this, null));
         adapter.restoreState(savedInstanceState);
         list = (RecyclerView) findViewById(R.id.list);
         list.setAdapter(adapter);

@@ -46,6 +46,6 @@ public class LoadingSource extends BaseSource {
 
     @Override
     protected int getValidElementType(Object data) {
-        return TextPresenter.TYPE_TEXT_SMALL;
+        return Presenter.TYPE_TEXT_SMALL;
     }
 }
