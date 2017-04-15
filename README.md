@@ -5,9 +5,17 @@
 
 # Elements
 
-A low-level library of reusable components for RecyclerView, with built-in awareness / support for
-pagination (splitting items into multiple pages), state saving and restoration, asynchronous tasks
-and dependencies among them, relative ordering of items.
+A low-level library of reusable components for RecyclerView, with built-in awareness of / support for
+pagination (splitting items into multiple pages), state saving and restoration, asynchronous loading,
+dependencies and relative ordering of items.
+
+At a higher level, this means it's very easy to implement common patterns: "endless adapters",
+placeholders for empty/loading lists, mixed content lists (headers, footers, sections, ads)
+with smooth animations. Logic for loading, ordering and binding is split into separate components
+that can be reused and subclassed in multiple lists. Async loading ensures `RecyclerView` is always
+responsive.
+
+See the [sample app](https://github.com/natario1/Elements/tree/master/sample) for a brief showcase.
 
 <!-- doctoc README.md --github.com --notitle -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -34,6 +42,7 @@ and dependencies among them, relative ordering of items.
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Concepts
+
 Elements comes useful in complex apps that display lists with mixed content or particular ordering
 / fetching behavior. By providing simple component units, you won't be writing huge adapter classes
 anymore (in fact, you don't extend `RecyclerView.Adapter` at all).
@@ -42,9 +51,9 @@ What you **will not** do:
 
 - Extend `RecyclerView.Adapter`
 - Extend `ViewHolder`
-- Extend `AsyncTask`
+- Use `AsyncTask`s
 - Use `notify*` methods
-- Incapsulate fetching (e.g. network), ordering, display, callbacks logic in a single adapter class
+- Incapsulate loading, ordering, display and callbacks logic in a single adapter class
   or, worse, in the external container (e.g. fragment).
 - Fetch data again on configuration changes
 
@@ -253,13 +262,13 @@ public interface ElementSerializer {
 }
 ```
 
-The library provides `ParcelableSerializer` (recommended), `SerializableSerializer` and
-`StaticSerializer`. The static serializer should be your very last resource.
+The library provides `ParcelableSerializer` (recommended), `SerializableSerializer`,
+`StringSerializer` and `StaticSerializer`. The static serializer should be your very last resource.
 
 ## BaseSource / BasePresenter
 
 Elements provides two basic (still abstract) implementations called `BaseSource` and `BasePresenter`.
-Together, they allow the display of three special placeholders. Each placeholder will have a layout
+Together, they allow the display of some special placeholders. Each placeholder will have a layout
 resource (override the defaults with `set*ViewRes()`) and private lifecycle callbacks if you need.
 
 #### Pagination placeholders
@@ -285,10 +294,15 @@ This works out of the box when, after loading page 0, the source returns no resu
 
 #### Error placeholders
 
-A special view that shown when the `Task` for objects has failed (e.g. an exception was thrown).
+A special view that is shown when the `Task` for objects has failed (e.g. an exception was thrown).
 You can, for example, return a failed task when there is no connectivity, and show a network error.
+
+#### Loading placeholders
+
+A spacial view that is shown *while* the `Task` for objects is going on, and removed when objects
+are found. This is typically a Progress Bar.
 
 ## Contributing
 
-You are welcome to contribute with issues, PRs or suggestions. This is missing lots at the moment,
-the most urgent being a test environment and a sample app.
+You are welcome to contribute with issues, PRs or suggestions. This is missing a few improvements
+at the moment, and most urgently a test environment.

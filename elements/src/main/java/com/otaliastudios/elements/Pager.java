@@ -216,6 +216,27 @@ public class Pager {
         }
 
         /**
+         * Insert an object at the specified position in this page.
+         * An element will be created.
+         * @param position position in this page, 0 based
+         * @param source the element source this data belogns to
+         * @param data object to be inserted
+         *
+         */
+        @UiThread
+        public Element insertElement(int position, ElementSource source, Object data) {
+            synchronized (mutex) {
+                if (position >= 0 && position <= this.elements.size()) {
+                    Element element = adapter.createElement(source, data);
+                    this.elements.add(position, element);
+                    notifyPageItemInserted(position);
+                    return element;
+                }
+                return null;
+            }
+        }
+
+        /**
          * Insert an element at the specified position in this page.
          * @param position position in this page, 0 based
          * @param element element to be inserted

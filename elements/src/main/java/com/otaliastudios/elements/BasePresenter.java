@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -21,8 +22,8 @@ import bolts.Task;
 
 /**
  * A simple implementation of ElementPresenter that, along with {@link BaseSource}, supports
- * the display of three special entities in lists called Placeholders: a Pagination placeholder,
- * an Empty placeholder and an Error placeholder.
+ * the display of special entities in lists called Placeholders: a Pagination placeholder,
+ * an Empty placeholder, a Error placeholder and a Loading placeholder.
  *
  * Pagination placeholder:
  * Control with {@link #setPaginationMode(int)}, {@link #onInitializePaginationView(Holder)},
@@ -40,6 +41,10 @@ import bolts.Task;
  * Error placeholder:
  * Control with {@link #setErrorViewRes(int)}, {@link #onInitializeErrorView(Holder)},
  * {@link #onBindErrorView(Pager.Page, Holder)}.
+ *
+ * Loading placeholder:
+ * Control with {@link #setLoadingViewRes(int)}, {@link #onInitializeLoadingView(Holder)},
+ * {@link #onBindLoadingView(Pager.Page, Holder)}.
  *
  * Ordinary, non-placeholder views should be created and bound using {@link #setViewRes(int)},
  * {@link #onInitializeValidView(Holder)}, {@link #onBindView(Pager.Page, Holder, Element)}.
@@ -62,6 +67,7 @@ public abstract class BasePresenter extends ElementPresenter {
     @LayoutRes private int paginationOnClickViewRes = R.layout.placeholder_pagination_onclick;
     @LayoutRes private int emptyViewRes = R.layout.placeholder_empty;
     @LayoutRes private int errorViewRes = R.layout.placeholder_error;
+    @LayoutRes private int loadingViewRes = R.layout.placeholder_loading;
     @LayoutRes private int viewRes;
 
     private PlaceholderClickListener clickListener;
@@ -81,6 +87,10 @@ public abstract class BasePresenter extends ElementPresenter {
 
     public void setErrorViewRes(int errorViewRes) {
         this.errorViewRes = errorViewRes;
+    }
+
+    public void setLoadingViewRes(int loadingViewRes) {
+        this.loadingViewRes = loadingViewRes;
     }
 
     public void setPaginationOnBindViewRes(int onBindViewRes) {
@@ -113,10 +123,11 @@ public abstract class BasePresenter extends ElementPresenter {
         list.add(BaseSource.TYPE_EMPTY);
         list.add(BaseSource.TYPE_ERROR);
         list.add(BaseSource.TYPE_PAGINATION);
+        list.add(BaseSource.TYPE_LOADING);
         return list;
     }
 
-    protected List<Integer> getValidElementTypes() {
+    protected ArrayList<Integer> getValidElementTypes() {
         return new ArrayList<>(Arrays.asList(0));
     }
 
@@ -128,6 +139,7 @@ public abstract class BasePresenter extends ElementPresenter {
         switch (elementType) {
             case BaseSource.TYPE_EMPTY: res = emptyViewRes; break;
             case BaseSource.TYPE_ERROR: res = errorViewRes; break;
+            case BaseSource.TYPE_LOADING: res = loadingViewRes; break;
             case BaseSource.TYPE_PAGINATION: res = getPaginationMode() == PAGINATION_MODE_ONBIND ?
                     paginationOnBindViewRes : paginationOnClickViewRes;
                 break;
@@ -144,6 +156,7 @@ public abstract class BasePresenter extends ElementPresenter {
         switch (holder.getElementType()) {
             case BaseSource.TYPE_EMPTY: onInitializeEmptyView(holder); break;
             case BaseSource.TYPE_ERROR: onInitializeErrorView(holder); break;
+            case BaseSource.TYPE_LOADING: onInitializeLoadingView(holder); break;
             case BaseSource.TYPE_PAGINATION: onInitializePaginationView(holder); break;
             default: onInitializeValidView(holder); break;
         }
@@ -152,6 +165,7 @@ public abstract class BasePresenter extends ElementPresenter {
     protected void onInitializePaginationView(Holder holder) {}
     protected void onInitializeEmptyView(Holder holder) {}
     protected void onInitializeErrorView(Holder holder) {}
+    protected void onInitializeLoadingView(Holder holder) {}
     protected void onInitializeValidView(Holder holder) {}
 
     // Binding
@@ -161,6 +175,7 @@ public abstract class BasePresenter extends ElementPresenter {
         switch (element.getElementType()) {
             case BaseSource.TYPE_EMPTY: onBindEmptyView(page, holder); break;
             case BaseSource.TYPE_ERROR: onBindErrorView(page, holder); break;
+            case BaseSource.TYPE_LOADING: onBindLoadingView(page, holder); break;
             case BaseSource.TYPE_PAGINATION: onBindPaginationView(page, holder, element); break;
             default: onBindView(page, holder, element); break;
         }
@@ -188,6 +203,9 @@ public abstract class BasePresenter extends ElementPresenter {
                 }
             });
         }
+    }
+
+    protected void onBindLoadingView(Pager.Page page, Holder holder) {
     }
 
     @CallSuper

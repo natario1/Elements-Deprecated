@@ -6,7 +6,6 @@
     android:layout_height="wrap_content">
 
     <ProgressBar
-        style="@android:style/Widget.ProgressBar"
         android:id="@+id/progress"
         android:layout_centerInParent="true"
         android:gravity="center"
