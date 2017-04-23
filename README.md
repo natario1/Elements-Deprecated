@@ -21,6 +21,80 @@ Take a look at the [sample](https://github.com/natario1/Elements/tree/master/sam
 
 <img src="art/0.png" width="20%" hspace="5"><img src="art/1.png" width="20%" hspace="5"><img src="art/2.png" width="20%" hspace="5"><img src="art/3.png" width="20%" hspace="5"><img src="art/4.png" width="20%" hspace="5"><img src="art/stories0.gif" width="20%" hspace="5"><img src="art/stories1.gif" width="20%" hspace="5"><img src="art/stories2.gif" width="20%" hspace="5">
 
+## Contributing
+
+You are welcome to contribute with issues, PRs or suggestions. This is missing a few improvements
+at the moment, and most urgently a test environment.
+
+# Quickstart
+
+Instantiate `ElementAdapter`, and simply set your `ElementSource` for data and your `ElementPresenter`
+for presentation.
+
+```java
+// onCreate...
+ElementAdapter adapter = new ElementAdapter();
+adapter.setSource(new SimpleSource());
+adapter.setPresenter(new SimplePresenter());
+adapter.restoreState(savedInstanceState);
+recyclerView.setAdapter(adapter);
+
+// onSaveInstanceState
+adapter.saveState(outState);
+```
+
+This is a simple implementation of `ElementSource` that provides strings:
+
+```java
+public class SimpleSource extends ElementSource {
+
+  @Override protected Task<List<Object>> find(Pager.Page page) {
+    return Task.callInBackground(new Callable<List<Object>>() {
+      
+      @Override
+      public List<Object> call() throws Exception {
+        // Running in a background thread...
+        List<Object> list = new ArrayList<>();
+        list.add("This is");
+        list.add("a simple list");
+        list.add("for page "+page.getPageNumber());
+        return list; 
+      }
+    });
+  }
+
+  @Override protected boolean dependsOn(ElementSource other) {
+    return false;
+  }
+  
+  @Override protected ElementSerializer instantiateSerializer() {
+    return new StringSerializer(); // For state restoration
+  }
+}
+```
+
+And this is a simple implementation of `ElementPresenter`:
+
+```java
+public class SimplePresenter extends ElementPresenter {
+
+  @Override protected View onCreateView(ViewGroup parent, int elementType) {
+    return new TextView(getContext()); // Or inflate a layout.
+  }
+
+  @Override protected void onBind(Pager.Page page, Holder holder, Element element) {
+    super.onBind(page, holder, element);
+    TextView textView = ((TextView) holder.getRoot());
+    textView.setText((String) element.getData());
+  }
+}
+```
+
+That's enough to get you started. Keep reading to understand more about the concepts and how
+this can be helpful in complex lists.
+
+# In-depth docs
+
 <!-- doctoc README.md --github --notitle -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -42,11 +116,10 @@ Take a look at the [sample](https://github.com/natario1/Elements/tree/master/sam
   - [Example presenter](#example-presenter)
 - [ElementSerializer](#elementserializer)
 - [BaseSource / BasePresenter](#basesource--basepresenter)
-    - [Pagination placeholders](#pagination-placeholders)
-    - [Empty placeholders](#empty-placeholders)
-    - [Error placeholders](#error-placeholders)
-    - [Loading placeholders](#loading-placeholders)
-- [Contributing](#contributing)
+  - [Pagination placeholders](#pagination-placeholders)
+  - [Empty placeholders](#empty-placeholders)
+  - [Error placeholders](#error-placeholders)
+  - [Loading placeholders](#loading-placeholders)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -315,7 +388,7 @@ Elements provides two basic (still abstract) implementations called `BaseSource`
 Together, they allow the display of some special placeholders. Each placeholder will have a layout
 resource (override the defaults with `set*ViewRes()`) and private lifecycle callbacks if you need.
 
-#### Pagination placeholders
+### Pagination placeholders
 
 Special views that indicate the user that there is more content to be seen (a new page).
 UI wise, this can be a progress bar or a button saying "Load more". The policy for pagination must
@@ -331,22 +404,17 @@ You can customize the behavior and layout with `setPaginationMode()`:
 - `PAGINATION_MODE_ONBIND`: new page is requested when the placeholder is bound, with a small delay.
 - `PAGINATION_MODE_ONCLICK`: new page is requested when the placeholder is clicked.
 
-#### Empty placeholders
+### Empty placeholders
 
 A special view that is shown when there's no content to be seen.
 This works out of the box when, after loading page 0, the source returns no results.
 
-#### Error placeholders
+### Error placeholders
 
 A special view that is shown when the `Task` for objects has failed (e.g. an exception was thrown).
 You can, for example, return a failed task when there is no connectivity, and show a network error.
 
-#### Loading placeholders
+### Loading placeholders
 
 A spacial view that is shown *while* the `Task` for objects is going on, and removed when objects
 are found. This is typically a Progress Bar.
-
-## Contributing
-
-You are welcome to contribute with issues, PRs or suggestions. This is missing a few improvements
-at the moment, and most urgently a test environment.
