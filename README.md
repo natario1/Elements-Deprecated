@@ -19,14 +19,7 @@ that can be reused efficiently.
 
 Take a look at the [sample](https://github.com/natario1/Elements/tree/master/sample) app for a showcase.
 
-<img src="art/0.png" width="20%" hspace="5">
-<img src="art/1.png" width="20%" hspace="5">
-<img src="art/2.png" width="20%" hspace="5">
-<img src="art/3.png" width="20%" hspace="5">
-<img src="art/4.png" width="20%" hspace="5">
-<img src="art/stories0.gif" width="20%" hspace="5">
-<img src="art/stories1.gif" width="20%" hspace="5">
-<img src="art/stories2.gif" width="20%" hspace="5">
+<img src="art/0.png" width="20%" hspace="5"><img src="art/1.png" width="20%" hspace="5"><img src="art/2.png" width="20%" hspace="5"><img src="art/3.png" width="20%" hspace="5"><img src="art/4.png" width="20%" hspace="5"><img src="art/stories0.gif" width="20%" hspace="5"><img src="art/stories1.gif" width="20%" hspace="5"><img src="art/stories2.gif" width="20%" hspace="5">
 
 <!-- doctoc README.md --github --notitle -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
