@@ -6,7 +6,7 @@
 # Elements
 
 ```groovy
-compile 'com.otaliastudios:elements:1.0'
+compile 'com.otaliastudios:elements:1.0.1'
 ```
 
 A low-level library of reusable components for `RecyclerView`, with built-in awareness of / support for
