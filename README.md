@@ -90,6 +90,7 @@ public class SimplePresenter extends ElementPresenter {
 }
 ```
 
+The adapter will automatically load page 0 once it gets the `RecyclerView`.
 That's enough to get you started. Keep reading to understand more about the concepts and how
 this can be helpful in complex lists.
 

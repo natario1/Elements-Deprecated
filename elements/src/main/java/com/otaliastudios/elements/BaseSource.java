@@ -73,11 +73,21 @@ public abstract class BaseSource extends ElementSource {
     @Override
     protected void onPrepareFind(final Pager.Page page, List<Element> dependenciesElements) {
         super.onPrepareFind(page, dependenciesElements);
-        if (loadingPlaceholderEnabled && page.getPageNumber() == 0) {
-            // Insert loading placeholder, from the UI thread.
+        // Insert loading placeholder if needed.
+        boolean insert = loadingPlaceholderEnabled; // Check flag
+        insert = insert && page.getPageNumber() == 0; // Only if first page
+        insert = insert && page.getElementsCount() <= 1; // "Empty" page
+        if (!insert) return;
+        // We must check for the presence of other placeholders in the current page.
+        // If the element is a placeholder, remove and insert the loading placeholder.
+        final int count = page.getElementsCount(); // Either 0 or 1
+        insert = count == 0 || page.getElement(0).getData() instanceof Placeholder;
+        if (insert) {
+            // Insert from the UI thread.
             Task.call(new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
+                    if (count == 1) page.removeElement(0);
                     loadingElement = page.insertElement(0, BaseSource.this, Placeholder.LOADING);
                     return null;
                 }
