@@ -419,7 +419,7 @@ public class Pager {
             return getElement(position-elementsBefore);
         }
 
-        /* package */ List<Element> getElements() { return elements; };
+        /* package */ List<Element> getElements() { return elements; }
 
         /* package */ List<Element> getElementsBySource(int sourceId) {
             return getElementsBySource(Arrays.asList(sourceId));
