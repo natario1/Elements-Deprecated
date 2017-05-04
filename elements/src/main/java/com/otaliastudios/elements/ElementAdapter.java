@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 import bolts.Continuation;
 import bolts.Task;
@@ -547,7 +548,13 @@ public final class ElementAdapter extends RecyclerView.Adapter<ElementPresenter.
             final int sources = allSources.size();
             for (int j = 0; j < pages; j++) {
                 final Pager.Page page = pager.getPage(j);
-                Task<Void> chain = Task.forResult(null);
+                // Request a background thread for this page.
+                Task<Void> chain = Task.callInBackground(new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        return null;
+                    }
+                });
                 for (int i = 0; i < sources; i++) {
                     // Get source and id.
                     final ElementSource source = allSources.get(i);
@@ -565,7 +572,7 @@ public final class ElementAdapter extends RecyclerView.Adapter<ElementPresenter.
                             return source.restorePageState(page, sourceBundle);
 
                         }
-                    }, Task.BACKGROUND_EXECUTOR).onSuccessTask(new Continuation<List<Object>, Task<Void>>() {
+                    }).onSuccessTask(new Continuation<List<Object>, Task<Void>>() {
                         @Override
                         public Task<Void> then(Task<List<Object>> task) throws Exception {
                             List<Object> objects = task.getResult();
