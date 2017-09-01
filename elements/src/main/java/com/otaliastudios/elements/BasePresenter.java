@@ -1,5 +1,6 @@
 package com.otaliastudios.elements;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.CallSuper;
@@ -170,6 +171,7 @@ public abstract class BasePresenter extends ElementPresenter {
 
     // Binding
 
+    @SuppressLint("MissingSuperCall")
     @Override
     protected final void onBind(final Pager.Page page, final Holder holder, final Element element) {
         switch (element.getElementType()) {
