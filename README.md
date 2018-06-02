@@ -1,3 +1,5 @@
+*This library is deprecated. Please take a look at https://github.com/natario1/Elements for a new, modern version, based on the Architecture components and written in Kotlin.*
+
 <!-- markdown-preview README.md -->
 <p align="center">
   <img src="art/elements.png" vspace="10" width="180" height="180">
