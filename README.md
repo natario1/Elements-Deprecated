@@ -1,4 +1,5 @@
-*This library is deprecated. Please take a look at https://github.com/natario1/Elements for a new, modern version, based on the Architecture components and written in Kotlin.*
+*This library is deprecated. Please take a look at https://github.com/natario1/Elements for a new, modern version, based on the Architecture components and written in Kotlin.
+You can still access the old version at a new location, see below.*
 
 <!-- markdown-preview README.md -->
 <p align="center">
@@ -8,7 +9,7 @@
 # Elements
 
 ```groovy
-compile 'com.otaliastudios:elements:1.0.2'
+compile 'com.otaliastudios:elements-deprecated:1.0.3'
 ```
 
 A low-level library of reusable components for `RecyclerView`, with built-in awareness of / support for

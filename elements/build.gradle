@@ -3,8 +3,9 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 // Required by bintray
-version = '1.0.2'
+version = '1.0.3'
 group = 'com.otaliastudios'
+archivesBaseName = 'elements-deprecated'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -43,11 +44,11 @@ install {
             description 'A low-level Android library of reusable components for RecyclerView, ' +
                     'with built-in support for pagination, state saving and restoration, ' +
                     'asynchronous loading, dependencies and relative ordering of items.'
-            url 'https://github.com/natario1/Elements'
+            url 'https://github.com/natario1/Elements-Deprecated'
 
             packaging 'aar'
             groupId project.group
-            artifactId 'elements'
+            artifactId 'elements-deprecated'
             version project.version
 
             licenses {
@@ -57,9 +58,9 @@ install {
                 }
             }
             scm {
-                connection 'https://github.com/natario1/Elements.git'
-                developerConnection 'https://github.com/natario1/Elements.git'
-                url 'https://github.com/natario1/Elements'
+                connection 'https://github.com/natario1/Elements-Deprecated.git'
+                developerConnection 'https://github.com/natario1/Elements-Deprecated.git'
+                url 'https://github.com/natario1/Elements-Deprecated'
 
             }
             developers {
@@ -90,7 +91,7 @@ bintray {
         repo = 'android'
         name = 'Elements'
         licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/natario1/Elements.git'
+        vcsUrl = 'https://github.com/natario1/Elements-Deprecated.git'
         publish = true
         override = true
         version {
